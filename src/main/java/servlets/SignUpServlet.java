@@ -17,6 +17,7 @@ public class SignUpServlet extends HttpServlet {
 
 
     //sign up
+    
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
         String login = request.getParameter("login");
