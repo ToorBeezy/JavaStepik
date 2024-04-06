@@ -1,9 +1,9 @@
-package db.executor;
+// package db.executor;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+// import java.sql.ResultSet;
+// import java.sql.SQLException;
 
 
-public interface ResultHandler<T> {
-    T handle(ResultSet resultSet) throws SQLException;
-}
+// public interface ResultHandler<T> {
+//     T handle(ResultSet resultSet) throws SQLException;
+// }

@@ -1,19 +1,19 @@
-package accounts;
+// package accounts;
 
-public class UserProfile {
-    private final String login;
-    private final String password;
+// public class UserProfile {
+//     private final String login;
+//     private final String password;
 
-    public UserProfile(String login, String password) {
-        this.login = login;
-        this.password = password;
-    }
+//     public UserProfile(String login, String password) {
+//         this.login = login;
+//         this.password = password;
+//     }
 
-    public String getLogin() {
-        return login;
-    }
+//     public String getLogin() {
+//         return login;
+//     }
 
-    public String getPassword() {
-        return password;
-    }
-}
+//     public String getPassword() {
+//         return password;
+//     }
+// }
