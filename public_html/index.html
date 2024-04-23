@@ -1,42 +1,13 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html" content="text/html;">
 <head>
     <meta charset="UTF-8"/>
-    <title>4.2</title>
+    <title>5</title>
 </head>
+
 <body>
-    
-    <div>
-        <div>
-            <textarea id="messages" rows="25" cols="47"></textarea>
-        </div>
 
-        <form name="message">
-            <input name="usermsg" type="text" id="message" size="40"/>
-            <input type="button" value="Send" onclick="sendMessage();"/>
-        </form>
-    </div>
-
-    <script>
-        var webSocket = new WebSocket("ws://localhost:8080/chat");
-
-        webSocket.onopen = function(event) {
-            console.log("connected");
-        };
-
-        webSocket.onmessage = function(event) {
-            console.log("Message: " + event.data);
-            var messagesTextArea = document.getElementById("messages");
-            messagesTextArea.value += event.data + "\n";
-        };
-
-        function sendMessage() {
-            var messageInput = document.getElementById("message");
-            var message = messageInput.value;
-            webSocket.send(message);
-            messageInput.value = "";
-        }
-    </script>
+    <a href="admin">AdminPage</a>
 
 </body>
 </html>
