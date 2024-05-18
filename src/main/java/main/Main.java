@@ -1,30 +1,55 @@
 package main;
 
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import chat.WebSocketChatServlet;
+import resourceServer.ResourceServer;
+import resourceServer.ResourceServerController;
+import resourceServer.ResourceServerControllerMBean;
+import resourceServer.ResourceServerI;
+import servlets.ResourcePageServlet;
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
+import java.lang.management.ManagementFactory;
 
 public class Main {
+
+    static final Logger logger = LogManager.getLogger(Main.class.getName());
+
     public static void main(String[] args) throws Exception {
-        Server server = new Server(8080);
+
+        int port = 8080;
+        logger.info("Starting at http://127.0.0.1:" + port);
+
+        ResourceServer resourceServer = new ResourceServerI();
+
+        ResourceServerControllerMBean serverStatistics = new ResourceServerController(resourceServer);
+        
+        MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+        ObjectName name = new ObjectName("Admin:type=ResourceServerController");
+        mbs.registerMBean(serverStatistics, name);
+
+        Server server = new Server(port);
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        context.addServlet(new ServletHolder(new WebSocketChatServlet()), "/chat");
+        context.addServlet(new ServletHolder(new ResourcePageServlet(resourceServer)), ResourcePageServlet.PAGE_URL);
 
-        ResourceHandler resourceHandler = new ResourceHandler();
-        resourceHandler.setResourceBase("public_html");
-        
+        ResourceHandler resource_handler = new ResourceHandler();
+        resource_handler.setDirectoriesListed(true);
+        resource_handler.setResourceBase("public_html");
+
         HandlerList handlers = new HandlerList();
-        handlers.setHandlers(new Handler[] {resourceHandler, context});
-
+        handlers.setHandlers(new Handler[]{resource_handler, context});
         server.setHandler(handlers);
 
         server.start();
-        System.out.println("Server started!");
+        logger.info("Server started");
         server.join();
     }
 }
